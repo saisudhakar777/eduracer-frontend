@@ -82,4 +82,44 @@
   .road-marking {
     @apply absolute h-14 w-4 bg-yellow-400;
   }
+  
+  /* New animations for car hitting and points display */
+  .animate-car-hit {
+    animation: car-hit 1.5s ease-in-out;
+  }
+  
+  .animate-points {
+    animation: points-popup 1.5s ease-out;
+  }
+}
+
+@keyframes car-hit {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-160px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes points-popup {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1.2);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-40px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.8);
+  }
 }

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Play, Pause } from 'lucide-react';
@@ -40,13 +41,16 @@ const GamePage = () => {
   const [gameActive, setGameActive] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [showPointsAnimation, setShowPointsAnimation] = useState(false);
+  const [pointsGained, setPointsGained] = useState(0);
+  const [carMoving, setCarMoving] = useState(false);
   
   const currentGameMode = gameData[mode] || gameData.alphabet;
   const currentQuestionData = currentGameMode.questions[currentQuestion];
   
   // Handle keyboard controls
   const handleKeyDown = useCallback((e) => {
-    if (!gameActive) return;
+    if (!gameActive || carMoving) return;
     
     switch (e.key) {
       case 'ArrowLeft':
@@ -62,20 +66,42 @@ const GamePage = () => {
       default:
         break;
     }
-  }, [gameActive, carPosition]);
+  }, [gameActive, carPosition, carMoving]);
   
   // Check if answer is correct
   const checkAnswer = () => {
-    if (carPosition === currentQuestionData.correctAnswer) {
-      setScore(prev => prev + 100);
-    }
+    if (carMoving) return;
     
-    // Move to next question or end game
-    if (currentQuestion < currentGameMode.questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
-    } else {
-      endGame();
-    }
+    setCarMoving(true);
+    
+    // Add animation for car moving up to hit the answer
+    setTimeout(() => {
+      let points = 0;
+      
+      if (carPosition === currentQuestionData.correctAnswer) {
+        points = 100;
+        setScore(prev => prev + points);
+        setPointsGained(points);
+        setShowPointsAnimation(true);
+      } else {
+        setPointsGained(0);
+        setShowPointsAnimation(true);
+      }
+      
+      // Hide points animation
+      setTimeout(() => {
+        setShowPointsAnimation(false);
+        
+        // Move to next question or end game
+        if (currentQuestion < currentGameMode.questions.length - 1) {
+          setCurrentQuestion(prev => prev + 1);
+        } else {
+          endGame();
+        }
+        
+        setCarMoving(false);
+      }, 1500);
+    }, 500);
   };
   
   const startGame = () => {
@@ -118,12 +144,12 @@ const GamePage = () => {
   
   // Touch controls for mobile
   const moveLeft = () => {
-    if (!gameActive) return;
+    if (!gameActive || carMoving) return;
     setCarPosition(prev => Math.max(0, prev - 1));
   };
   
   const moveRight = () => {
-    if (!gameActive) return;
+    if (!gameActive || carMoving) return;
     setCarPosition(prev => Math.min(2, prev + 1));
   };
 
@@ -169,8 +195,13 @@ const GamePage = () => {
                 </div>
               </div>
               {carPosition === 0 && (
-                <div className="car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200">
+                <div className={`car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200 ${carMoving ? 'animate-car-hit' : ''}`}>
                   🏎️
+                </div>
+              )}
+              {showPointsAnimation && carPosition === 0 && (
+                <div className="absolute bottom-1/2 text-2xl font-bold animate-points">
+                  {pointsGained > 0 ? `+${pointsGained}` : "❌"}
                 </div>
               )}
             </div>
@@ -182,8 +213,13 @@ const GamePage = () => {
                 </div>
               </div>
               {carPosition === 1 && (
-                <div className="car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200">
+                <div className={`car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200 ${carMoving ? 'animate-car-hit' : ''}`}>
                   🏎️
+                </div>
+              )}
+              {showPointsAnimation && carPosition === 1 && (
+                <div className="absolute bottom-1/2 text-2xl font-bold animate-points">
+                  {pointsGained > 0 ? `+${pointsGained}` : "❌"}
                 </div>
               )}
             </div>
@@ -195,8 +231,13 @@ const GamePage = () => {
                 </div>
               </div>
               {carPosition === 2 && (
-                <div className="car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200">
+                <div className={`car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200 ${carMoving ? 'animate-car-hit' : ''}`}>
                   🏎️
+                </div>
+              )}
+              {showPointsAnimation && carPosition === 2 && (
+                <div className="absolute bottom-1/2 text-2xl font-bold animate-points">
+                  {pointsGained > 0 ? `+${pointsGained}` : "❌"}
                 </div>
               )}
             </div>
