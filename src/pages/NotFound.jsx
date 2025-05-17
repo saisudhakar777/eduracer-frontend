@@ -1,22 +1,14 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Home } from 'lucide-react';
+import { Link } from "react-router-dom";
 
-const NotFound = () => {
+export default function NotFound() {
   return (
-    <div className="min-h-[70vh] flex items-center justify-center bg-gray-100">
-      <div className="text-center max-w-md p-8 bg-white rounded-3xl shadow-lg">
-        <div className="text-6xl mb-4">🚧</div>
-        <h1 className="text-4xl font-bold mb-4 text-eduBlue">Oops!</h1>
-        <p className="text-xl text-gray-600 mb-6">This racetrack doesn't exist yet.</p>
-        <Link to="/" className="btn btn-primary inline-flex items-center">
-          <Home className="mr-2" size={20} />
-          Back to Home Track
-        </Link>
-      </div>
+    <div className="flex flex-col items-center justify-center h-full p-4">
+      <h1 className="text-4xl font-bold mb-2">404</h1>
+      <p className="text-xl mb-6">Page not found</p>
+      <Link to="/" className="text-blue-500 hover:underline">
+        Return to home page
+      </Link>
     </div>
   );
-};
-
-export default NotFound;
+}
