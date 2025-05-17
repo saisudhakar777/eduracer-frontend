@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Play, Pause } from 'lucide-react';
@@ -170,7 +169,7 @@ const GamePage = () => {
                 </div>
               </div>
               {carPosition === 0 && (
-                <div className="car w-16 h-16 bg-eduRed transform transition-all duration-200">
+                <div className="car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200">
                   🏎️
                 </div>
               )}
@@ -183,7 +182,7 @@ const GamePage = () => {
                 </div>
               </div>
               {carPosition === 1 && (
-                <div className="car w-16 h-16 bg-eduRed transform transition-all duration-200">
+                <div className="car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200">
                   🏎️
                 </div>
               )}
@@ -196,7 +195,7 @@ const GamePage = () => {
                 </div>
               </div>
               {carPosition === 2 && (
-                <div className="car w-16 h-16 bg-eduRed transform transition-all duration-200">
+                <div className="car w-24 h-24 text-4xl bg-eduRed transform transition-all duration-200">
                   🏎️
                 </div>
               )}
